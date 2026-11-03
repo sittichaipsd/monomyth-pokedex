@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Monomyth Pokédex</title>
+<style>
+:root{--bg:#f3f5fa;--card:#fff;--tx:#1b2030;--mu:#677086;--bd:#e0e4ee;--ac:#3b5bdb}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1118;--card:#171b26;--tx:#e8ebf4;--mu:#97a0b4;--bd:#272d3d;--ac:#8197ff}}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 system-ui,"Noto Sans Thai",sans-serif;background:var(--bg);color:var(--tx)}
+header{padding:30px 16px 10px;text-align:center}
+h1{margin:0;font-size:clamp(26px,5vw,40px);letter-spacing:-.5px}
+header p{margin:6px 0 0;color:var(--mu)}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;border-bottom:1px solid var(--bd)}
+input,select,button{font:inherit;color:inherit;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:8px 12px}
+input{flex:1;min-width:180px;max-width:340px}
+button{cursor:pointer}
+button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:12px 16px 0;max-width:900px;margin:auto}
+.chip,.ty{border:0;border-radius:99px;padding:2px 11px;font-size:12px;font-weight:700;color:#fff}
+.chip{cursor:pointer;opacity:.5}
+.chip.on{opacity:1;box-shadow:0 0 0 2px var(--tx)}
+#count{text-align:center;color:var(--mu);margin:10px 0 0;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;padding:16px;max-width:1200px;margin:auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 8px 12px;text-align:center;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 20px #0002}
+.card small{color:var(--mu);display:block}
+.card b{display:block}
+.card .ty{display:inline-block;margin:4px 2px 0}
+img.sp{width:128px;height:128px;image-rendering:pixelated;display:block;margin:0 auto}
+dialog{border:0;border-radius:18px;padding:0;width:min(1100px,96vw);overflow:auto;max-height:92vh;background:var(--card);color:var(--tx);box-shadow:0 20px 60px #0006}
+dialog::backdrop{background:#0008}
+.in{padding:22px;position:relative}
+.x{position:absolute;right:12px;top:12px;border-radius:50%;width:34px;height:34px;padding:0}
+.top{text-align:center}
+.top img.sp{width:192px;height:192px}
+.top h2{margin:4px 0 2px}
+.tg{display:flex;gap:6px;justify-content:center;margin:8px 0}
+.row{display:grid;grid-template-columns:44px 36px 1fr;gap:8px;align-items:center;font-size:13px;margin:4px 0}
+.track{height:9px;border-radius:9px;background:var(--bd);overflow:hidden}
+.track i{display:block;height:100%;border-radius:9px}
+h3{font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);margin:16px 0 4px}
+p{margin:4px 0}
+footer{text-align:center;color:var(--mu);font-size:12px;padding:24px 16px 40px;max-width:700px;margin:auto}
+a{color:var(--ac)}
+.tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;padding:0 16px 10px}
+body:not([data-v=p]) :is(.bar,.chips,#count,#grid){display:none}
+body[data-v=p] #tv{display:none}
+#tv{max-width:1200px;margin:auto;padding:12px 16px}
+.bar2{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:6px 10px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}
+th{position:sticky;top:0;background:var(--bg)}
+details{background:var(--card);border:1px solid var(--bd);border-radius:12px;margin:8px 0;padding:8px 14px}
+summary{cursor:pointer;font-weight:600}summary small{color:var(--mu);font-weight:400}
+.pm{display:flex;gap:10px;align-items:center;padding:6px 0;border-top:1px solid var(--bd)}
+.pm img{width:56px;height:56px;image-rendering:pixelated;flex:none}
+.in{padding:0}.hd{display:flex;justify-content:space-between;gap:10px;padding:16px 20px;color:#fff;align-items:flex-start}
+.hd h2{margin:0}.hd small{opacity:.9}.hd button{background:#0003;color:#fff;border-color:#fff5}
+.dg{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:18px;padding:18px 20px}
+@media(max-width:820px){.dg{grid-template-columns:1fr}}
+.dg>div{min-width:0}.seg{display:inline-flex}.seg button{border-radius:0}.seg button:first-child{border-radius:10px 0 0 10px}.seg button:last-child{border-radius:0 10px 10px 0}
+.ev{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:6px 0}.ev img.sp{width:64px;height:64px}
+.en{text-align:center;font-size:12px;padding:6px;border:1px solid var(--bd);border-radius:10px}.en.me{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac)}
+.ar{text-align:center;color:var(--mu)}.ar small{display:block;font-size:10px;border:1px solid var(--bd);border-radius:6px;padding:0 4px}
+.ic{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ic div{background:var(--bg);border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600}
+.ic small{display:block;color:var(--mu);text-transform:uppercase;font-size:10px;font-weight:400}
+.q{border-left:3px solid var(--ac);padding:6px 12px;font-style:italic;color:var(--mu);background:var(--bg);border-radius:6px}
+.lt{overflow:auto;max-height:520px}.mu{display:flex;gap:6px;align-items:center;margin:3px 0;flex-wrap:wrap}
+.dl{min-width:44px;text-align:center;color:#fff;border-radius:8px;padding:2px 6px;font-size:15px}.ab{margin:6px 0}.ab small{color:var(--mu)}
+</style>
+</head>
+<body data-v="p">
+<header>
+  <h1>Monomyth Pokédex</h1>
+  <p>จัดทำโดย <b>ROMHACKOLOGY</b> — รวมข้อมูลโปเกมอน สกิล และเทรนเนอร์ของรอมแฮ็ก Pokémon Monomyth v1.0</p>
+</header>
+<nav class="tabs" id="tabs"><button class="on" data-v="p">โปเกมอน</button><button data-v="m">สกิล</button><button data-v="a">ความสามารถ</button><button data-v="t">เทรนเนอร์ / บอส</button></nav>
+<div class="bar">
+  <input id="q" type="search" placeholder="ค้นหาชื่อ / เลข Dex / ความสามารถ">
+  <select id="sort">
+    <option value="d">เรียงตามเลข Dex</option><option value="n">เรียงตามชื่อ</option>
+    <option value="b">BST สูงสุด</option><option value="0">HP สูงสุด</option><option value="1">Attack สูงสุด</option>
+    <option value="2">Defense สูงสุด</option><option value="3">Sp.Atk สูงสุด</option>
+    <option value="4">Sp.Def สูงสุด</option><option value="5">Speed สูงสุด</option>
+  </select>
+  <button id="shiny">✨ Shiny</button>
+</div>
+<div class="chips" id="chips"></div>
+<p id="count"></p>
+<main class="grid" id="grid"></main>
+<div id="tv"></div>
+<dialog id="dlg"><div class="in" id="dbody"></div></dialog>
+<footer>
+  เว็บแฟนเมดที่ไม่เป็นทางการ ไม่แสวงหากำไร · เกม/สไปรต์เป็นผลงานของ Team MonoMyth · ข้อมูลจาก
+  <a href="https://pokerex.io" target="_blank" rel="noopener">REX (pokerex.io)</a> · Pokémon เป็นลิขสิทธิ์ของ Nintendo / Game Freak / The Pokémon Company
+</footer>
+<script src="data.js"></script><script src="moves.js"></script><script src="trainers.js"></script><script src="detail.js"></script><script src="th.js"></script>
+<script>
+const D = window.POKEMON || [], DIR = 'monomyth_images/pokemon/';
+const TC = {Normal:'#8f95a3',Fire:'#ee7b2d',Water:'#3f8ae0',Electric:'#d9a900',Grass:'#46a64a',Ice:'#44bcc6',Fighting:'#c03028',Poison:'#a040a0',Ground:'#b8913a',Flying:'#7c8fe0',Psychic:'#f0507c',Bug:'#92a416',Rock:'#9c8630',Ghost:'#6a548f',Dragon:'#5a34e8',Dark:'#6a5446',Steel:'#7b7ea0',Fairy:'#e0829a'};
+const SL = ['HP','Atk','Def','SpA','SpD','Spe'];
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const col = t => TC[t] || '#777';
+const tag = t => `<span class="ty" style="background:${col(t)}">${esc(t)}</span>`;
+let shiny = false, types = new Set();
+
+const img = (p, v, cls = 'sp') =>
+  `<img class="${cls}" loading="lazy" alt="${esc(p.n)}"${p.n === '???' && cls === 'sp' ? ' style="filter:brightness(0)"' : ''} src="${DIR}${p.f}_${v}${shiny ? 'Shiny' : ''}.png" onerror="this.style.visibility='hidden'">`;
+
+function list() {
+  const q = $('q').value.trim().toLowerCase(), s = $('sort').value;
+  let r = D.filter(p =>
+    (!q || p.n.toLowerCase().includes(q) || String(p.d).includes(q) || [...p.a, p.h || ''].some(a => a.toLowerCase().includes(q))) &&
+    [...types].every(t => p.t.includes(t)));
+  r.sort((a, b) => s === 'd' ? (a.d || 999) - (b.d || 999) : s === 'n' ? a.n.localeCompare(b.n) : s === 'b' ? b.b - a.b : b.s[+s] - a.s[+s]);
+  $('count').textContent = `แสดง ${r.length} จาก ${D.length} ตัว`;
+  $('grid').innerHTML = r.map(p => `<div class="card" data-k="${p.k}">${img(p, 'front')}
+    <small>#${p.d ? String(p.d).padStart(3, '0') : '???'}</small><b>${esc(p.n)}</b>${p.t.map(tag).join('')}</div>`).join('');
+}
+
+const TH = Object.assign({e: {}, a: {}}, window.TH), AB = Object.fromEntries((window.ABILITIES || []).map(a => [a[0], a[1]])), DT = window.DETAIL || {}, MV = Object.fromEntries((window.MOVES || []).map(m => [m.n, m]));
+const SC = ['#2fb386', '#f06a6a', '#4c8dff', '#9b7bff', '#ff9a3d', '#f5c518'], p3 = n => String(n).padStart(3, '0');
+const mrow = (lv, n, p) => {
+  const m = MV[n] || {};
+  return `<tr><td>${lv}</td><td><b>${esc(n)}</b></td><td>${m.t ? tag(m.t) : ''}</td><td>${esc(m.c || '')}</td><td>${m.p || '—'}</td><td>${m.a || '—'}</td><td>${m.pp ?? ''}</td><td>${m.c ? (m.c === 'Status' ? '–' : p.t.includes(m.t) ? '×1.5' : '×1') : ''}</td></tr>`;
+};
+function evo(p) {
+  const by = n => D.find(x => x.n === n);
+  let root = p;
+  for (let g = 0; g < 4; g++) { const par = D.find(x => ((DT[x.k] || {}).ev || []).some(e => e[0] === root.n)); if (!par) break; root = par; }
+  const paths = [];
+  const walk = (c, path, d) => {
+    const nx = (DT[c.k] || {}).ev || [];
+    if (!nx.length || d > 4) return paths.push(path);
+    nx.forEach(([t, m]) => { const q = by(t); q ? walk(q, [...path, [m, q]], d + 1) : paths.push(path); });
+  };
+  walk(root, [[null, root]], 0);
+  if (paths.every(x => x.length < 2)) return '';
+  return '<h3>วิวัฒนาการ</h3>' + paths.map(pa => `<div class="ev">${pa.map(([m, q]) => (m ? `<span class="ar">→<small>${esc(m)}</small></span>` : '') +
+    `<div class="en${q === p ? ' me' : ''}" data-k="${q.k}" style="cursor:pointer" title="ดู ${esc(q.n)}">${img(q, 'front')}<b>${esc(q.n)}</b><br><small>${q.b} BST</small></div>`).join('')}</div>`).join('');
+}
+function show(k) {
+  const p = D.find(x => x.k === k);
+  if (!p) return;
+  const d = DT[k] || {}, L = p.l || {L: [], T: [], E: [], U: []};
+  let side = 'front', tab = 'L';
+  const draw = () => {
+    const rows = tab === 'L' ? L.L.map(([v, m]) => mrow(v || 1, m, p)) : L[tab].map(m => mrow('—', m, p));
+    const inch = Math.round(p.ht / 0.0254), TN = {L: 'Level Up', T: 'TM / HM', E: 'Egg', U: 'Tutor'};
+    const dfl = [['4', '×4', 'อ่อนมาก โดนแรงขึ้น 4 เท่า', '#e03131'], ['2', '×2', 'จุดอ่อน โดนแรงขึ้น 2 เท่า', '#f08c00'], ['0.5', '×½', 'ทนทาน โดนลดเหลือครึ่งเดียว', '#2f9e44'], ['0.25', '×¼', 'ทนมาก โดนลดเหลือ 1 ใน 4', '#2b8a3e'], ['0', '×0', 'ไม่โดนเลย (ไม่ได้รับความเสียหาย)', '#1971c2']].filter(x => (d.df || {})[x[0]]);
+    $('dbody').innerHTML = `<div class="hd" style="background:${col(p.t[0])}"><div><h2>${esc(p.n)}</h2><i>The ${esc(p.c)} Pokémon</i><br>
+      <small>Regional #${p.d ? p3(p.d) : '???'} · Hack #${String(d.id || 0).padStart(4, '0')}</small></div><span><button id="sb">🔗 แชร์</button> <button id="cl">✕</button></span></div>
+    <div class="dg"><div>
+      <div style="text-align:center"><span class="seg"><button data-s="front" class="${side === 'front' ? 'on' : ''}">Front</button><button data-s="back" class="${side === 'back' ? 'on' : ''}">Back</button></span>
+        <span class="seg"><button id="sn" class="${shiny ? '' : 'on'}">Normal</button><button id="sh" class="${shiny ? 'on' : ''}">✨ Shiny</button></span>
+        <div>${img(p, side, 'sp big')}</div></div>
+      ${evo(p)}
+      <h3>สเตตัสฐาน</h3>
+      ${p.s.map((v, i) => `<div class="row"><span style="color:${SC[i]}">${SL[i]}</span><b style="color:${SC[i]}">${v}</b><div class="track"><i style="width:${Math.min(100, v / 150 * 100)}%;background:${SC[i]}"></i></div></div>`).join('')}
+      <p><b>Total Base Stats: <span style="color:var(--ac);font-size:22px">${p.b}</span></b></p>
+      <h3>ไทป์</h3><div class="mu">${p.t.map(tag).join('')}</div>
+      <h3>จุดอ่อน / จุดแข็ง</h3><p style="color:var(--mu);font-size:13px">ถ้าถูกโจมตีด้วยท่าไทป์เหล่านี้ ความเสียหายจะเป็นกี่เท่าของปกติ</p>${dfl.map(([k2, lab, txt, c]) => `<div class="mu" style="align-items:flex-start"><b class="dl" style="background:${c}">${lab}</b><div><small>${txt}</small><div class="mu">${d.df[k2].map(tag).join('')}</div></div></div>`).join('')}
+      <h3>ความสามารถ</h3>${[...p.a.map(a => [a, 0]), ...(p.h ? [[p.h, 1]] : [])].map(([a, h]) => `<div class="ab"><b>${esc(a)}</b>${h ? ' <span class="en">Hidden</span>' : ''}<br><small>${esc(TH.a[a] || AB[a] || '')}</small></div>`).join('')}
+      ${p.e ? `<h3>Pokédex</h3><p class="q">"${esc(TH.e[k] || p.e)}"</p>` : ''}
+      <div class="ic" style="margin-top:8px"><div><small>Height</small>${p.ht} m (${Math.floor(inch / 12)}'${String(inch % 12).padStart(2, '0')}")</div><div><small>Weight</small>${p.wt} kg (${(p.wt * 2.20462).toFixed(1)} lbs)</div>
+        <div><small>Gender</small>${esc(d.gd)}</div><div><small>Growth</small>${esc(d.gr)}</div><div><small>Catch rate</small>${d.cr}</div><div><small>Egg groups</small>${(d.eg || []).join(', ')}</div>
+        <div><small>Egg cycles</small>${d.ec}</div><div><small>Friendship</small>${d.fr}</div><div><small>EXP yield</small>${d.xp}</div></div>
+    </div><div>
+      <h3>Learnset</h3><div class="mu">${Object.keys(TN).map(t => `<button data-t="${t}" class="${tab === t ? 'on' : ''}">${TN[t]} (${L[t].length})</button>`).join('')}</div>
+      <div class="lt"><table><thead><tr><th>LV</th><th>Move</th><th>Type</th><th>Cat</th><th>Pwr</th><th>Acc</th><th>PP</th><th>STAB</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>
+      ${(d.en || []).length ? `<h3>Encounter Locations</h3><div class="lt"><table><thead><tr><th>Location</th><th>Method</th><th>Rate</th><th>Levels</th></tr></thead><tbody>${d.en.map(e =>
+        `<tr><td>${esc(e[0])}</td><td>${esc(e[1])}</td><td>${e[2] == null ? '—' : e[2] + '%'}</td><td>Lv.${e[3] === e[4] ? e[3] : e[3] + '-' + e[4]}</td></tr>`).join('')}</tbody></table></div>` : ''}
+    </div></div>`;
+    $('dbody').querySelectorAll('.en[data-k]').forEach(b => b.onclick = () => show(b.dataset.k));
+    $('cl').onclick = () => $('dlg').close();
+    $('sb').onclick = () => { navigator.clipboard && navigator.clipboard.writeText(location.href); $('sb').textContent = '✓ คัดลอกลิงก์แล้ว'; };
+    $('sn').onclick = () => { shiny = false; $('shiny').classList.remove('on'); draw(); list(); };
+    $('sh').onclick = () => { shiny = true; $('shiny').classList.add('on'); draw(); list(); };
+    $('dbody').querySelectorAll('[data-s]').forEach(b => b.onclick = () => { side = b.dataset.s; draw(); });
+    $('dbody').querySelectorAll('[data-t]').forEach(b => b.onclick = () => { tab = b.dataset.t; draw(); });
+  };
+  draw();
+  if (!$('dlg').open) $('dlg').showModal();
+  history.replaceState(null, '', '#' + k);
+}
+
+$('chips').innerHTML = Object.keys(TC).map(t => `<button class="chip" data-t="${t}" style="background:${col(t)}">${t}</button>`).join('');
+$('chips').onclick = e => {
+  const t = e.target.dataset.t;
+  if (!t) return;
+  types.has(t) ? types.delete(t) : types.add(t);
+  e.target.classList.toggle('on');
+  list();
+};
+$('grid').onclick = e => { const c = e.target.closest('.card'); if (c) show(c.dataset.k); };
+$('q').oninput = list;
+$('sort').onchange = list;
+$('shiny').onclick = () => { shiny = !shiny; $('shiny').classList.toggle('on', shiny); list(); };
+$('dlg').onclick = e => { if (e.target === $('dlg')) $('dlg').close(); };
+$('dlg').onclose = () => history.replaceState(null, '', location.pathname + location.search);
+const M = window.MOVES || [], A = window.ABILITIES || [], T = window.TRAINERS || [], pf = {};
+D.forEach(p => { pf[p.n] = p.f; p.l = (window.LEARN || {})[p.k]; });
+function learn(p) {
+  const L = p.l; if (!L) return '';
+  const j = a => a.map(esc).join(' · ');
+  return `<h3>สกิลที่เรียน (เลเวลอัป)</h3><p>${L.L.map(([v, m]) => `<b>${v || '—'}</b> ${esc(m)}`).join(' · ')}</p>` +
+    (L.T.length ? `<h3>TM / HM</h3><p>${j(L.T)}</p>` : '') + (L.E.length ? `<h3>Egg Moves</h3><p>${j(L.E)}</p>` : '') +
+    (L.U.length ? `<h3>Move Tutor</h3><p>${j(L.U)}</p>` : '');
+}
+const VW = {
+  m: {ph: 'ค้นหาสกิล', h: ['สกิล', 'ไทป์', 'ประเภท', 'พลัง', 'แม่นยำ', 'PP', 'คำอธิบาย'],
+      r: () => M.map(m => [`<b>${esc(m.n)}</b>`, tag(m.t), esc(m.c), m.p || '—', m.a || '—', m.pp, esc(m.d)])},
+  a: {ph: 'ค้นหาความสามารถ / โปเกมอน', h: ['ความสามารถ', 'คำอธิบาย', 'โปเกมอนที่มี'],
+      r: () => A.map(a => [`<b>${esc(a[0])}</b>`, esc(TH.a[a[0]] || a[1]), esc(a[2].join(', '))])}
+};
+function tbl(v) {
+  const x = VW[v], rows = x.r().map(r => ({h: '<tr>' + r.map(c => `<td>${c}</td>`).join('') + '</tr>', s: r.join(' ').replace(/<[^>]*>/g, '').toLowerCase()}));
+  $('tv').innerHTML = `<div class="bar2"><input id="tq" placeholder="${x.ph}"></div><div class="tw"><table><thead><tr>${x.h.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody id="tb"></tbody></table></div>`;
+  const draw = () => { const q = $('tq').value.toLowerCase(); $('tb').innerHTML = rows.filter(r => !q || r.s.includes(q)).map(r => r.h).join(''); };
+  $('tq').oninput = draw; draw();
+}
+function trn() {
+  const cls = [...new Set(T.map(t => t[2]))].sort();
+  $('tv').innerHTML = `<div class="bar2"><input id="tq" placeholder="ค้นหาเทรนเนอร์ / สถานที่ / โปเกมอน"><select id="tc"><option value="">ทุกประเภท</option><option value="*">⭐ บอส / ผู้นำ</option>${cls.map(c => `<option>${esc(c)}</option>`).join('')}</select></div><p id="tn" style="color:var(--mu)"></p><div id="tl"></div>`;
+  const draw = () => {
+    const q = $('tq').value.toLowerCase(), c = $('tc').value;
+    const r = T.filter(t => (!c || (c === '*' ? t[4] : t[2] === c)) && (!q || (t[0] + ' ' + t[1] + ' ' + t[5].map(m => m[0]).join(' ')).toLowerCase().includes(q)));
+    $('tn').textContent = `พบ ${r.length} รายการ` + (r.length > 150 ? ' (แสดง 150 แรก — พิมพ์ค้นหาเพื่อกรอง)' : '');
+    $('tl').innerHTML = r.slice(0, 150).map(t => `<details><summary>${esc(t[0])} <small>${esc(t[1])} · ${t[5].length} ตัว${t[3] ? ' · Double' : ''}</small></summary>${t[5].map(m =>
+      `<div class="pm"><img loading="lazy" alt="" src="${DIR}${pf[m[0]] || 'x'}_front.png" onerror="this.style.visibility='hidden'"><div><b>${esc(m[0])}</b> Lv.${m[1]} · ${esc(m[2])}${m[3] ? ' · 🎒 ' + esc(m[3]) : ''}<br><small>${m[4].map(esc).join(' · ')}</small></div></div>`).join('')}</details>`).join('');
+  };
+  $('tq').oninput = draw; $('tc').onchange = draw; draw();
+}
+$('tabs').onclick = e => {
+  const v = e.target.dataset.v; if (!v) return;
+  document.body.dataset.v = v;
+  [...$('tabs').children].forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  if (v === 'm' || v === 'a') tbl(v); if (v === 't') trn();
+  window.scrollTo(0, 0);
+};
+list();
+if (location.hash.length > 1) show(decodeURIComponent(location.hash.slice(1)));
+</script>
+</body>
+</html>
