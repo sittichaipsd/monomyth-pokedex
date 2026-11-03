@@ -61,7 +61,7 @@ summary{cursor:pointer;font-weight:600}summary small{color:var(--mu);font-weight
 .dg{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:18px;padding:18px 20px}
 @media(max-width:820px){.dg{grid-template-columns:1fr}}
 .dg>div{min-width:0}.seg{display:inline-flex}.seg button{border-radius:0}.seg button:first-child{border-radius:10px 0 0 10px}.seg button:last-child{border-radius:0 10px 10px 0}
-.ev{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:6px 0}.ev img.sp{width:64px;height:64px}
+.ev{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow-x:auto;margin:6px 0}.ev>*{flex:none}.ev img.sp{width:64px;height:64px}
 .en{text-align:center;font-size:12px;padding:6px;border:1px solid var(--bd);border-radius:10px}.en.me{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac)}
 .ar{text-align:center;color:var(--mu)}.ar small{display:block;font-size:10px;border:1px solid var(--bd);border-radius:6px;padding:0 4px}
 .ic{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ic div{background:var(--bg);border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600}
@@ -92,6 +92,7 @@ th,td{padding:5px 6px;font-size:12px}
 .lt{max-height:400px}
 #tv{padding:10px 12px}
 #tv td:last-child{min-width:200px}
+.ev{gap:3px}.ev img.sp{width:48px;height:48px}.ev .en{font-size:11px;padding:4px 5px}.ar small{font-size:9px;white-space:normal;max-width:72px}
 }
 </style>
 </head>
@@ -163,7 +164,7 @@ function evo(p) {
   };
   walk(root, [[null, root]], 0);
   if (paths.every(x => x.length < 2)) return '';
-  return '<h3>วิวัฒนาการ</h3>' + paths.map(pa => `<div class="ev">${pa.map(([m, q]) => (m ? `<span class="ar">→<small>${esc(m)}</small></span>` : '') +
+  return '<h3>วิวัฒนาการ</h3>' + paths.map(pa => `<div class="ev">${pa.map(([m, q]) => (m ? `<span class="ar">→<small>${esc(m.replace(/^Level Up\s+(\d+)/, 'Lv. $1'))}</small></span>` : '') +
     `<div class="en${q === p ? ' me' : ''}" data-k="${q.k}" style="cursor:pointer" title="ดู ${esc(q.n)}">${img(q, 'front')}<b>${esc(q.n)}</b><br><small>${q.b} BST</small></div>`).join('')}</div>`).join('');
 }
 function show(k) {
