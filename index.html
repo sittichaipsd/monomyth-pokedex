@@ -3,20 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f0896e">
 <title>Monomyth Pokédex</title>
 <style>
-:root{--bg:#f3f5fa;--card:#fff;--tx:#1b2030;--mu:#677086;--bd:#e0e4ee;--ac:#3b5bdb}
-@media(prefers-color-scheme:dark){:root{--bg:#0e1118;--card:#171b26;--tx:#e8ebf4;--mu:#97a0b4;--bd:#272d3d;--ac:#8197ff}}
+:root{--bg:#f8f3ef;--card:#fff;--tx:#201e4d;--mu:#6c6a8c;--bd:#e6dde2;--ac:#2a35c8;--onac:#fff}
+@media(prefers-color-scheme:dark){:root{--bg:#15132e;--card:#201d44;--tx:#f3f0ff;--mu:#a9a5cf;--bd:#34306a;--ac:#ffe21f;--onac:#1a1760}}
 *{box-sizing:border-box}
 body{margin:0;font:15px/1.55 system-ui,"Noto Sans Thai",sans-serif;background:var(--bg);color:var(--tx)}
-header{padding:30px 16px 10px;text-align:center}
-h1{margin:0;font-size:clamp(26px,5vw,40px);letter-spacing:-.5px}
-header p{margin:6px 0 0;color:var(--mu)}
+header{padding:34px 16px 26px;text-align:center;background:linear-gradient(180deg,#a68aa6 0%,#f0896e 58%,#f4a352 100%);border-radius:0 0 28px 28px;margin-bottom:12px;box-shadow:0 6px 20px #0002}
+h1{margin:0;font-size:clamp(28px,6vw,46px);letter-spacing:.5px;color:#ffee1a;text-shadow:-2px -2px 0 #2430c0,2px -2px 0 #2430c0,-2px 2px 0 #2430c0,2px 2px 0 #2430c0,0 4px 0 #1a1f8f,0 7px 10px #0004}
+header p{margin:10px 0 0;color:#fff;text-shadow:0 1px 3px #0006}
 .bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;border-bottom:1px solid var(--bd)}
 input,select,button{font:inherit;color:inherit;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:8px 12px}
 input{flex:1;min-width:180px;max-width:340px}
 button{cursor:pointer}
-button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+button.on{background:var(--ac);border-color:var(--ac);color:var(--onac);font-weight:700}
 .chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:12px 16px 0;max-width:900px;margin:auto}
 .chip,.ty{border:0;border-radius:99px;padding:2px 11px;font-size:12px;font-weight:700;color:#fff}
 .chip{cursor:pointer;opacity:.5}
@@ -72,7 +73,7 @@ summary{cursor:pointer;font-weight:600}summary small{color:var(--mu);font-weight
 input,select{font-size:16px}button{touch-action:manipulation}
 img.big{width:192px;height:192px}
 @media(max-width:640px){
-header{padding:16px 12px 4px}header p{font-size:13px;margin-top:4px}
+header{padding:20px 12px 18px}header p{font-size:13px;margin-top:4px}
 .tabs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:4px 12px 8px}
 .tabs button{flex:none;white-space:nowrap;padding:8px 14px}
 .bar{padding:8px 12px;gap:6px}
@@ -94,6 +95,15 @@ th,td{padding:5px 6px;font-size:12px}
 #tv td:last-child{min-width:200px}
 .ev{gap:3px}.ev img.sp{width:48px;height:48px}.ev .en{font-size:11px;padding:4px 5px}.ar small{font-size:9px;white-space:normal;max-width:72px}
 }
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
+.mc{background:var(--card);border:1px solid var(--bd);border-left:5px solid var(--bd);border-radius:12px;padding:10px 12px}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ms{display:flex;gap:12px;flex-wrap:wrap;color:var(--mu);font-size:12px;margin:6px 0 2px}.ms b{color:var(--tx)}
+.mc p{margin:6px 0 0;font-size:13.5px}.ac{border-left-color:var(--ac)}
+.pks{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.pk{padding:0;width:48px;height:48px;border-radius:10px;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.pk img{width:44px;height:44px;image-rendering:pixelated}.pk.ha{border:1px dashed #e8b900}
+@media(max-width:640px){.cg{grid-template-columns:1fr}}
 </style>
 </head>
 <body data-v="p">
@@ -146,7 +156,7 @@ function list() {
     <small>#${p.d ? String(p.d).padStart(3, '0') : '???'}</small><b>${esc(p.n)}</b>${p.t.map(tag).join('')}</div>`).join('');
 }
 
-const TH = Object.assign({e: {}, a: {}}, window.TH), AB = Object.fromEntries((window.ABILITIES || []).map(a => [a[0], a[1]])), DT = window.DETAIL || {}, MV = Object.fromEntries((window.MOVES || []).map(m => [m.n, m]));
+const TH = Object.assign({e: {}, a: {}, m: {}}, window.TH), AB = Object.fromEntries((window.ABILITIES || []).map(a => [a[0], a[1]])), DT = window.DETAIL || {}, MV = Object.fromEntries((window.MOVES || []).map(m => [m.n, m]));
 const SC = ['#2fb386', '#f06a6a', '#4c8dff', '#9b7bff', '#ff9a3d', '#f5c518'], p3 = n => String(n).padStart(3, '0');
 const mrow = (lv, n, p) => {
   const m = MV[n] || {};
@@ -235,17 +245,28 @@ function learn(p) {
     (L.T.length ? `<h3>TM / HM</h3><p>${j(L.T)}</p>` : '') + (L.E.length ? `<h3>Egg Moves</h3><p>${j(L.E)}</p>` : '') +
     (L.U.length ? `<h3>Move Tutor</h3><p>${j(L.U)}</p>` : '');
 }
-const VW = {
-  m: {ph: 'ค้นหาสกิล', h: ['สกิล', 'ไทป์', 'ประเภท', 'พลัง', 'แม่นยำ', 'PP', 'คำอธิบาย'],
-      r: () => M.map(m => [`<b>${esc(m.n)}</b>`, tag(m.t), esc(m.c), m.p || '—', m.a || '—', m.pp, esc(m.d)])},
-  a: {ph: 'ค้นหาความสามารถ / โปเกมอน', h: ['ความสามารถ', 'คำอธิบาย', 'โปเกมอนที่มี'],
-      r: () => A.map(a => [`<b>${esc(a[0])}</b>`, esc(TH.a[a[0]] || a[1]), esc(a[2].join(', '))])}
+const byN = {}; D.forEach(p => byN[p.n] = p);
+const pkBtn = n => {
+  const ha = n.endsWith(' (HA)'), p = byN[n.replace(' (HA)', '')];
+  return p ? `<button class="pk${ha ? ' ha' : ''}" data-k="${p.k}" title="${esc(p.n)}${ha ? ' (Hidden)' : ''}"><img loading="lazy" alt="${esc(p.n)}" src="${DIR}${p.f}_front.png" onerror="this.style.visibility='hidden'"></button>` : '';
 };
 function tbl(v) {
-  const x = VW[v], rows = x.r().map(r => ({h: '<tr>' + r.map(c => `<td>${c}</td>`).join('') + '</tr>', s: r.join(' ').replace(/<[^>]*>/g, '').toLowerCase()}));
-  $('tv').innerHTML = `<div class="bar2"><input id="tq" placeholder="${x.ph}"></div><div class="tw"><table><thead><tr>${x.h.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody id="tb"></tbody></table></div>`;
-  const draw = () => { const q = $('tq').value.toLowerCase(); $('tb').innerHTML = rows.filter(r => !q || r.s.includes(q)).map(r => r.h).join(''); };
-  $('tq').oninput = draw; draw();
+  const isM = v === 'm';
+  $('tv').innerHTML = `<div class="bar2"><input id="tq" placeholder="${isM ? 'ค้นหาสกิล / คำอธิบาย' : 'ค้นหาความสามารถ / ชื่อโปเกมอน'}">${isM ? `<select id="tt"><option value="">ทุกไทป์</option>${Object.keys(TC).map(t => `<option>${t}</option>`).join('')}</select><select id="tc"><option value="">ทุกประเภท</option><option>Physical</option><option>Special</option><option>Status</option></select>` : ''}</div>
+    <p id="tn" style="color:var(--mu);margin:4px 0 10px"></p>${isM ? '' : '<p style="color:var(--mu);font-size:13px;margin:0 0 10px">กดที่รูปโปเกมอนเพื่อดูรายละเอียด · กรอบประสีเหลือง = เป็นความสามารถ Hidden (HA)</p>'}<div class="cg" id="cg"></div>`;
+  const rows = isM ? M.map(m => ({s: (m.n + ' ' + m.d + ' ' + (TH.m[m.n] || '')).toLowerCase(), t: m.t, c: m.c,
+      h: `<div class="mc" style="border-left-color:${col(m.t)}"><div class="mh"><b>${esc(m.n)}</b>${tag(m.t)}</div><div class="ms"><span>${esc(m.c)}</span><span>พลัง <b>${m.p || '—'}</b></span><span>แม่นยำ <b>${m.a || '—'}</b></span><span>PP <b>${m.pp}</b></span></div><p>${esc(TH.m[m.n] || m.d)}</p></div>`}))
+    : A.map(a => ({s: (a[0] + ' ' + (TH.a[a[0]] || a[1]) + ' ' + a[2].join(' ')).toLowerCase(),
+      h: `<div class="mc ac"><div class="mh"><b>${esc(a[0])}</b><span style="color:var(--mu);font-size:12px">${a[2].length} ตัว</span></div><p>${esc(TH.a[a[0]] || a[1])}</p><div class="pks">${a[2].map(pkBtn).join('')}</div></div>`}));
+  const draw = () => {
+    const q = $('tq').value.toLowerCase(), t = isM ? $('tt').value : '', c = isM ? $('tc').value : '';
+    const r = rows.filter(r => (!q || r.s.includes(q)) && (!t || r.t === t) && (!c || r.c === c));
+    $('tn').textContent = `พบ ${r.length} รายการ`;
+    $('cg').innerHTML = r.map(x => x.h).join('');
+  };
+  ['tq', 'tt', 'tc'].forEach(i => { const e = $(i); if (e) e.oninput = e.onchange = draw; });
+  $('cg').onclick = e => { const b = e.target.closest('.pk'); if (b) show(b.dataset.k); };
+  draw();
 }
 function trn() {
   const cls = [...new Set(T.map(t => t[2]))].sort();
